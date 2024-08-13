@@ -63,7 +63,7 @@ pt_names_map = {
 }
 
 model_names_map = {
-    'pythia-2.8b': 'pythia-2.8b'
+    'pythia-phi-2': 'pythia-phi-2'
 
 }
 
@@ -77,7 +77,7 @@ p_value_cutoff = 0.00005
 if res_prefix[-1] != '/':
     res_prefix += '/'
 
-MODELS = ['pythia-2.8b']
+MODELS = ['pythia-phi-2']
 
 reported_res = {'llama 7b': {DatasetName.ARC: 0.5307, DatasetName.HellaSwag: 0.7859, DatasetName.mmlu: 0.3876, DatasetName.Winogrande: 0.7403},
                 'llama 13b': {DatasetName.ARC: 0.5939, DatasetName.HellaSwag: 0.8213, DatasetName.mmlu: 0.5577, DatasetName.Winogrande: 0.7664},
@@ -197,6 +197,7 @@ for dataset_idx, dataset in enumerate(DATASETS):
             assert(len(pred_idx) == len(true_idx))
 
             accuracy, arr = compute_accuracy(pred_idx, true_idx)
+            print(f"Dataset: {dataset.value}, Model: {model_nickname}, Prompt Type: {pt.value}, Accuracy: {accuracy}")
             arr_map[(model_nickname, pt.value)] = arr
 
             benchmark_graph_data['Accuracy'].append(accuracy)
@@ -267,6 +268,5 @@ fig.legend(unique_handles, unique_labels, fontsize=12, loc='lower center', ncol=
 
 plt.tight_layout()
 plt.subplots_adjust(bottom=legend_margin)
-print(out_dir)
 plt.savefig(out_dir, dpi=500)
 plt.savefig('plot.png')

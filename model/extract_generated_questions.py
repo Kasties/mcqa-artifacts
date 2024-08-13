@@ -5,8 +5,8 @@ import os
 sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'model'))
 
 # specify models, datasets, and the results directory
-res_dir = "/mcqa-artifacts/resultsARC/"
-MODELS = ['pythia-2.8b']
+res_dir = "/mcqa-artifacts/results/"
+MODELS = ['pythia-phi-2']
 DATASETS = ['ARC']
 
 pt = 'artifact_choices'
@@ -35,5 +35,5 @@ for model_nickname in MODELS:
                 cs.append(None)
 
         out = {'questions': qs, 'choices': cs}
-        with open("/mcqa-artifacts/results/ARC/pythia-2.8b/gen_question_data.pkl", 'wb') as handle:
+        with open("/mcqa-artifacts/results/ARC/pythia-phi-2/gen_question_data.pkl", 'wb') as handle:
             pickle.dump(out, handle, protocol=pickle.HIGHEST_PROTOCOL)

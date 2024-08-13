@@ -9,7 +9,7 @@ from data_loader import create_data_evaluation, DatasetName
 
 # specify models, datasets, and the results directory
 res_dir = "/mcqa-artifacts/results/"
-MODELS = ['pythia-2.8b']
+MODELS = ['pythia-phi-2']
 DATASETS = [DatasetName.ARC]
 
 
@@ -56,7 +56,7 @@ for dataset_name in DATASETS:
                 qs.append(None)
                 cs.append(None)
         #No idea but res and out got combiend
-        out_dir = "mcqa-artifacts/results/ARC/pythia-2.8b/random_question_data.pkl"
+        out_dir = "mcqa-artifacts/results/ARC/pythia-phi-2/random_question_data.pkl"
         out = {'questions': qs_copy, 'choices': cs}
         with open(out_dir, 'wb') as handle:
             pickle.dump(out, handle, protocol=pickle.HIGHEST_PROTOCOL)

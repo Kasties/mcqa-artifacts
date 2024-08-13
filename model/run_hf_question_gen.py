@@ -41,13 +41,13 @@ def setup():
         '-m',
         type=str,
         help="(Nick)name of the model in directory",
-        default="pythia-2.8b",
+        default="pythia-phi-2",
     )
     parser.add_argument(
         "--model_name_hf",
         type=str,
         help="Name of the model on hugging face",
-        default="EleutherAI/pythia-2.8b",
+        default="microsoft/phi-2",
     )
     parser.add_argument(
         "--dataset_name",
@@ -212,7 +212,7 @@ def run_inference(dataset_names, dataset_split, hf_dataset_name, model_name, par
             gen_question_path = f'{res_dir}{dataset_name.value}/{model_name}/random_question_data.pkl'
         else:
             gen_question_path = f'{res_dir}{dataset_name.value}/{model_name}/gen_question_data.pkl'
-        with open("/mcqa-artifacts/results/ARC/pythia-2.8b/gen_question_data.pkl", 'rb') as handle:
+        with open("/mcqa-artifacts/results/ARC/pythia-phi-2/gen_question_data.pkl", 'rb') as handle:
             gen_question_data = pickle.load(handle)
 
         # results directory setup
