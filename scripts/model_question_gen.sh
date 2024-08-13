@@ -1,11 +1,11 @@
 #!/bin/bash
 
-model_name="llama 70b" # model nickname (for saving in folders)
-model_name_hf="meta-llama/Llama-2-70b-hf" # huggingface directory
+model_name="pythia-2.8b" # model nickname (for saving in folders)
+model_name_hf="EleutherAI/pythia-2.8b" # huggingface directory
 
 # list of experiments
 # see all possible experiments in: /mcqa-artifacts/model/data_loader.py
-experiments=("normal" "artifact_choices_cot")
+experiments=("normal" "artifact_choices")
 
 # list of datasets to test
 # see all possible datasets in: /mcqa-artifacts/model/data_loader.py
@@ -23,16 +23,16 @@ load_in_8bit="False" # load the model in 8bit? ("False" or "True")
 load_in_4bit="False" # load the model in 4bit? ("False" or "True")
 use_20_fewshot="False" # use a 20-shot prompt in ARC? ("False" or "True") => we set this to "True" for Falcon 
 
-res_dir=".../mcqa-artifacts/results" # Results folder directory
-prompt_dir=".../mcqa-artifacts/prompts" # Prompt folder directory
-cache_dir=... # Cache directory to save the model
+res_dir="/mcqa-artifacts/results" # Results folder directory
+prompt_dir="/mcqa-artifacts/prompts" # Prompt folder directory
+cache_dir="/mcqa-artifacts/cache/" # Cache directory to save the model
 
 
 
 datasets_str=$(IFS=" "; echo "${datasets[*]}")
 experiments_str=$(IFS=" "; echo "${experiments[*]}")
 
-python3 /mcqa-artifacts/model/run_hf_question_gen.py \
+python3 model/run_hf_question_gen.py \
 --model_name="$model_name" \
 --model_name_hf="$model_name_hf" \
 --dataset_name="$datasets_str" \

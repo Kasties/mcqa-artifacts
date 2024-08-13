@@ -1,7 +1,7 @@
 # set absolute prefix for results folder
-res_prefix = ...
+res_prefix = "/mcqa-artifacts/results/"
 # output directory of the plot
-out_dir = ...
+out_dir = "/home/mar/eai/mcqa-artifacts/"
 
 
 import sys
@@ -67,21 +67,18 @@ pt_names_map = {
 }
 
 model_names_map = {
-    'llama 70b': 'LLaMA 70B',
-    'falcon 40b': 'Falcon 40B',
-    'mistral 7b': 'Mixtral 8x7B',
-    'phi 2': 'Phi 2'
+    'pythia-2.8b': 'pythia-2.8b'
 }
 
 DATASETS = [DatasetName.ARC, DatasetName.HellaSwag]
 t_test_strats = {PromptType.artifact_choices.value, 'ind_choice_with_question_even', 'ind_choice_only_even'}
 
-MODELS = ['llama 70b', 'mistral 7b', 'phi 2']
+MODELS = ['pythia-2.8b']
 EXPERIMENTS = [PromptType.normal, 'ind_choice_with_question_even', PromptType.artifact_choices, 'ind_choice_only_even']
 
 
 import datasets
-ds = datasets.load_dataset('nbalepur/mcqa_artifacts')
+ds = datasets.load_from_disk("file:///home/mar/eai/cool")
 
 reported_res = {'llama 7b': {DatasetName.ARC: 0.5307, DatasetName.HellaSwag: 0.7859, DatasetName.mmlu: 0.3876, DatasetName.Winogrande: 0.7403},
                 'llama 13b': {DatasetName.ARC: 0.5939, DatasetName.HellaSwag: 0.8213, DatasetName.mmlu: 0.5577, DatasetName.Winogrande: 0.7664},

@@ -1,13 +1,16 @@
+from data_loader import create_data, DatasetName, PromptType
+
+
 EXPERIMENTS_ARTIFACT = [PromptType.normal, PromptType.artifact_choices]
-EXPERIMENTS_MEMORIZE = [PromptType.normal, PromptType.memorization_empty, PromptType.memorization_gold, PromptType.memorization_no_choice]
-EXPERIMENTS_INFER_QUESTION = EXPERIMENTS_ARTIFACT + [PromptType.artifact_choices_cot_twostep_generated, PromptType.artifact_choices_cot_twostep_random]
+#EXPERIMENTS_MEMORIZE = [PromptType.normal, PromptType.memorization_empty, PromptType.memorization_gold, PromptType.memorization_no_choice]
+#EXPERIMENTS_INFER_QUESTION = EXPERIMENTS_ARTIFACT + [PromptType.artifact_choices_cot_twostep_generated, PromptType.artifact_choices_cot_twostep_random]
 
 # set experiments to one of the lists above
-EXPERIMENTS = ... 
+EXPERIMENTS = EXPERIMENTS_ARTIFACT 
 # set absolute prefix for results folder
-res_prefix = ...
+res_prefix = "/mcqa-artifacts/results/"
 # output directory of the plot
-out_dir = ...
+out_dir = "/home/mar/eai/mcqa-artifacts/"
 
 import sys
 import datasets
@@ -25,7 +28,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__f
 from data_loader import create_data_evaluation
 from data_loader import PromptType, DatasetName
 
-DATASETS = [DatasetName.ARC, DatasetName.mmlu, DatasetName.HellaSwag]
+DATASETS = [DatasetName.ARC]
 t_test_strats = {}
 
 colors = {
@@ -60,12 +63,8 @@ pt_names_map = {
 }
 
 model_names_map = {
-    'llama 70b': 'LLaMA 70B',
-    'llama 13b': 'LLaMA 13B',
-    'llama 7b': 'LLaMA 7B',
-    'falcon 40b': 'Falcon 40B',
-    'mistral 7b': 'Mixtral 8x7B',
-    'phi 2': 'Phi 2'
+    'pythia-2.8b': 'pythia-2.8b'
+
 }
 
 patterns = {
@@ -78,7 +77,7 @@ p_value_cutoff = 0.00005
 if res_prefix[-1] != '/':
     res_prefix += '/'
 
-MODELS = ['llama 70b', 'falcon 40b', 'mistral 7b', 'phi 2']
+MODELS = ['pythia-2.8b']
 
 reported_res = {'llama 7b': {DatasetName.ARC: 0.5307, DatasetName.HellaSwag: 0.7859, DatasetName.mmlu: 0.3876, DatasetName.Winogrande: 0.7403},
                 'llama 13b': {DatasetName.ARC: 0.5939, DatasetName.HellaSwag: 0.8213, DatasetName.mmlu: 0.5577, DatasetName.Winogrande: 0.7664},
@@ -107,7 +106,7 @@ def format_dataset(ds):
     else:
         return ds.value
 
-ds = datasets.load_dataset('nbalepur/mcqa_artifacts')
+ds = datasets.load_from_disk("file:///home/mar/eai/cool")
 
 def convert_raw_text(rt):
     if rt == None:
@@ -268,4 +267,6 @@ fig.legend(unique_handles, unique_labels, fontsize=12, loc='lower center', ncol=
 
 plt.tight_layout()
 plt.subplots_adjust(bottom=legend_margin)
+print(out_dir)
 plt.savefig(out_dir, dpi=500)
+plt.savefig('plot.png')

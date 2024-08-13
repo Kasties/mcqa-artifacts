@@ -41,13 +41,13 @@ def setup():
         '-m',
         type=str,
         help="(Nick)name of the model in directory",
-        default="llama 7b",
+        default="pythia-2.8b",
     )
     parser.add_argument(
         "--model_name_hf",
         type=str,
         help="Name of the model on hugging face",
-        default="meta-llama/Llama-2-7b-hf",
+        default="EleutherAI/pythia-2.8b",
     )
     parser.add_argument(
         "--dataset_name",
@@ -203,15 +203,16 @@ def generate_text(prompt, stop_token):
 def run_inference(dataset_names, dataset_split, hf_dataset_name, model_name, partition, use_random_question, use_20_fewshot, pipe, tokenizer, prompt_dir, res_dir):
 
     # load data
-    ds = datasets.load_dataset(hf_dataset_name)
+    dataset_path = os.path.abspath("/home/mar/eai/cool/")
+    ds = datasets.load_from_disk("file:///home/mar/eai/cool/")
 
     for dataset_name in dataset_names[0]:
-
+        use_random_question = False
         if use_random_question:
             gen_question_path = f'{res_dir}{dataset_name.value}/{model_name}/random_question_data.pkl'
         else:
             gen_question_path = f'{res_dir}{dataset_name.value}/{model_name}/gen_question_data.pkl'
-        with open(gen_question_path, 'rb') as handle:
+        with open("/mcqa-artifacts/results/ARC/pythia-2.8b/gen_question_data.pkl", 'rb') as handle:
             gen_question_data = pickle.load(handle)
 
         # results directory setup
@@ -282,7 +283,7 @@ if __name__ == '__main__':
     dataset_names, dataset_split, hf_dataset_name, model_name, hf_model_name, load_in_4bit, load_in_8bit, use_random_question, use_20_fewshot, half, prompt_dir, res_dir, cache_dir = setup()
 
     # get the model
-    pipe, tokenizer = load_model(hf_model_name, load_in_4bit, load_in_8bit, cache_dir)
+    pipe, tokenizer = load_model(hf_model_name, load_in_4bit, load_in_8bit)
 
     # run inference
     run_inference(dataset_names, dataset_split, hf_dataset_name, model_name, half, use_random_question, use_20_fewshot, pipe, tokenizer, prompt_dir, res_dir)

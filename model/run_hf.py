@@ -142,13 +142,20 @@ def setup():
     assert(not (load_in_4bit and load_in_8bit))
 
     dataset_names = args.dataset_name
-    dataset_split = (args.train_dataset_split, args.eval_dataset_split)
+    
+
+    dataset_split = [args.train_dataset_split, args.eval_dataset_split]
+
     hf_dataset_name = args.hf_dataset_name
     prompt_types = args.prompt_types
     model_name = args.model_name
     hf_model_name = args.model_name_hf
     partition = args.partition
-    
+    cache_dir = args.cache_dir
+    res_dir = args.res_dir
+    prompt_dir = args.prompt_dir 
+
+
 
     hf_token = args.hf_token
     HfFolder.save_token(hf_token)
@@ -205,7 +212,8 @@ def generate_text(prompt, stop_token):
 def run_inference(dataset_names, dataset_split, hf_dataset_name, prompt_types, model_name, partition, use_20_fewshot, pipe, tokenizer, prompt_dir, res_dir):
 
     # load data
-    ds = datasets.load_dataset(hf_dataset_name)
+
+    ds = datasets.load_from_disk("file:///home/mar/eai/cool")
 
     for dataset_name in dataset_names[0]:
 
@@ -262,9 +270,9 @@ if __name__ == '__main__':
     dataset_names, dataset_split, hf_dataset_name, prompt_types, model_name, hf_model_name, load_in_4bit, load_in_8bit, use_20_fewshot, half, prompt_dir, res_dir, cache_dir = setup()
 
     # get the model
-    pipe, tokenizer = load_model(hf_model_name, load_in_4bit, load_in_8bit)
+    pipe, tokenizer = load_model(hf_model_name, load_in_4bit, load_in_8bit,cache_dir)
 
     # run inference
-    run_inference(dataset_names, dataset_split, hf_dataset_name, prompt_types, model_name, half, use_20_fewshot, pipe, tokenizer)
+    run_inference(dataset_names, dataset_split, hf_dataset_name, prompt_types, model_name, half, use_20_fewshot, pipe, tokenizer,prompt_dir,res_dir)
 
     

@@ -8,13 +8,13 @@ sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__f
 from data_loader import create_data_evaluation, DatasetName
 
 # specify models, datasets, and the results directory
-res_dir = ...
-MODELS = ['llama 70b', 'falcon 40b', 'mixtral 7b']
-DATASETS = [DatasetName.ARC, DatasetName.HellaSwag, DatasetName.mmlu]
+res_dir = "/mcqa-artifacts/results/"
+MODELS = ['pythia-2.8b']
+DATASETS = [DatasetName.ARC]
 
 
-pt = 'artifact_choices_cot'
-ds = datasets.load_dataset('nbalepur/mcqa_artifacts')
+pt = 'artifact_choices'
+ds = datasets.load_from_disk("file:///home/mar/eai/cool")
 
 def check_any_match(l1, l2):
     for i in range(len(l1)):
@@ -36,6 +36,7 @@ for dataset_name in DATASETS:
     for model_nickname in MODELS:
 
         res_dir = f'{res_dir}{dataset}/{model_nickname}/{pt}.pkl'
+        
         out_dir = f'{res_dir}{dataset}/{model_nickname}/random_question_data.pkl'
         with open(res_dir, 'rb') as handle:
             res = pickle.load(handle)
@@ -54,7 +55,8 @@ for dataset_name in DATASETS:
                 invalid_count += 1
                 qs.append(None)
                 cs.append(None)
-
+        #No idea but res and out got combiend
+        out_dir = "mcqa-artifacts/results/ARC/pythia-2.8b/random_question_data.pkl"
         out = {'questions': qs_copy, 'choices': cs}
         with open(out_dir, 'wb') as handle:
             pickle.dump(out, handle, protocol=pickle.HIGHEST_PROTOCOL)

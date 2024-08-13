@@ -31,7 +31,7 @@ datasets_str=$(IFS=" "; echo "${datasets[*]}")
 experiments_str=$(IFS=" "; echo "${experiments[*]}")
 
 # add the correct file below
-python3 /mcqa-artifacts/model/run_hf.py \
+python3 /model/run_hf.py \
 --model_name="$model_name" \
 --model_name_hf="$model_name_hf" \
 --dataset_name="$datasets_str" \

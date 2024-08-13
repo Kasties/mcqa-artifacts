@@ -87,7 +87,9 @@ def create_data_choices_even_mmlu(dataset, dataset_name, dataset_split, prompt_t
         suffix += "_20"
 
     # load data and prompt objects
-    train_ds, test_ds = dataset[dataset_split[0]], dataset[dataset_split[1]]
+    train_ds = dataset['train'][['train']]
+    test_ds = dataset["test"]
+
 
     # get all tagged datasets
     train_ds_ = train_ds.filter(lambda example: dataset_name.value in example['dataset'])
@@ -178,7 +180,7 @@ def create_data(dataset, dataset_name, dataset_split, prompt_type, prompt_dir, u
         return create_data_choices_even(dataset, dataset_name, dataset_split, prompt_type, prompt_dir, use_20_fewshot)
 
     # load data and prompt objects
-    train_ds, test_ds = dataset[dataset_split[0]], dataset[dataset_split[1]]
+    train_ds, test_ds = dataset["train"], dataset["test"]
     prompt_object = prompt_type_map[prompt_type]()
 
     # get all tagged datasets
